@@ -1,0 +1,146 @@
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Portal da Seleção Brasileira</title>
+
+    <link rel="stylesheet" href="css/style.css">
+</head>
+
+<body onload="boasVindas()">
+
+    <nav>
+        <ul>
+            <li><a href="index.html">Início</a></li>
+            <li><a href="classificacao.html">Classificação</a></li>
+            <li><a href="cadastro.html">Cadastro de Torcedor</a></li>
+        </ul>
+    </nav>
+
+    <header>
+        <h1 id="titulo" onclick="trocarCor()">
+            Seleção Brasileira
+        </h1>
+
+        <p>
+            A maior campeã da história das Copas do Mundo.
+        </p>
+    </header>
+
+    <main>
+
+      <section class="escudo">
+    <img
+        src="img/brasil.jfif"
+        alt="Escudo da Seleção Brasileira"
+        class="logo-brasil"
+        ondblclick="aumentarImagem(this)"
+    >
+
+    <h2>Confederação Brasileira de Futebol</h2>
+
+    <p>
+        A Seleção Brasileira é a única seleção presente em todas as Copas do Mundo
+        e a maior campeã da história com cinco títulos mundiais.
+    </p>
+</section>
+
+        <section>
+            <h2>História</h2>
+
+            <p
+                onmouseover="destacar(this)"
+                onmouseout="normal(this)"
+            >
+                A Seleção Brasileira é reconhecida mundialmente como uma das
+                maiores equipes de futebol da história. O Brasil conquistou
+                cinco títulos mundiais e revelou jogadores lendários.
+            </p>
+        </section>
+
+       <section>
+    <h2>🏆 Títulos Mundiais</h2>
+
+    <div class="cards">
+
+        <div class="card">
+            <h3>1958</h3>
+            <img src="img/1958.jpg" alt="Copa 1958">
+            <p>Primeiro título mundial na Suécia.</p>
+        </div>
+
+        <div class="card">
+            <h3>1962</h3>
+            <img src="img/1962.jpg" alt="Copa 1962">
+            <p>Bicampeonato conquistado no Chile.</p>
+        </div>
+
+        <div class="card">
+            <h3>1970</h3>
+            <img src="img/1970.jpg" alt="Copa 1970">
+            <p>Time histórico liderado por Pelé.</p>
+        </div>
+
+        <div class="card">
+            <h3>1994</h3>
+            <img src="img/1994.jfif" alt="Copa 1994">
+            <p>Título conquistado nos EUA.</p>
+        </div>
+
+        <div class="card">
+            <h3>2002</h3>
+            <img src="img/2002.jpeg" alt="Copa 2002">
+            <p>Penta com Ronaldo Fenômeno.</p>
+        </div>
+
+    </div>
+</section>
+
+       <section>
+    <h2>⭐ Jogadores Históricos</h2>
+
+    <div class="cards">
+
+        <div class="card">
+            <h3>Pelé</h3>
+            <img src="img/pele.jpg" alt="Pelé">
+            <p>Maior ídolo da história do futebol.</p>
+        </div>
+
+        <div class="card">
+            <h3>Ronaldo Fenômeno</h3>
+            <img src="img/ronaldo.jfif" alt="Ronaldo">
+            <p>Artilheiro e campeão em 1994 e 2002.</p>
+        </div>
+
+        <div class="card">
+            <h3>Ronaldinho Gaúcho</h3>
+            <img src="img/ronaldinho.jfif" alt="Ronaldinho">
+            <p>Craque do penta em 2002.</p>
+        </div>
+
+        <div class="card">
+            <h3>Romário</h3>
+            <img src="img/romario.jpg" alt="Romário">
+            <p>Principal jogador do tetra em 1994.</p>
+        </div>
+
+        <div class="card">
+            <h3>Neymar Jr.</h3>
+            <img src="img/neymar.jpg" alt="Neymar">
+            <p>Maior artilheiro da Seleção Brasileira.</p>
+        </div>
+
+    </div>
+</section>
+
+    </main>
+
+    <footer>
+        <p>Portal Oficial da Seleção Brasileira</p>
+    </footer>
+
+    <script src="js/script.js"></script>
+
+</body>
+</html>

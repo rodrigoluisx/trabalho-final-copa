@@ -1,0 +1,76 @@
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cadastro de Torcedor</title>
+
+<link rel="stylesheet" href="css/style.css">
+
+</head>
+<body>
+
+<nav>
+    <ul>
+        <li><a href="index.html">Início</a></li>
+        <li><a href="classificacao.html">Classificação</a></li>
+        <li><a href="cadastro.html">Cadastro de Torcedor</a></li>
+    </ul>
+</nav>
+
+<header>
+    <h1>Cadastro de Torcedor</h1>
+    <p>Preencha seus dados para participar.</p>
+</header>
+
+<main>
+
+    <section>
+
+        <form onsubmit="salvarDados(event)">
+
+            <label>Nome Completo</label><br>
+            <input type="text"
+                   id="nome"
+                   required
+                   onfocus="foco(this)"
+                   onblur="sair(this)"
+                   onkeyup="digitarNome()"><br><br>
+
+            <label>Email</label><br>
+            <input type="email"
+                   id="email"
+                   required
+                   onfocus="foco(this)"
+                   onblur="sair(this)"><br><br>
+
+            <label>Data de Nascimento</label><br>
+            <input type="date"
+                   id="nascimento"
+                   required
+                   onchange="mostrarData()"><br><br>
+
+            <label>Cidade</label><br>
+            <input type="text"
+                   id="cidade"
+                   required><br><br>
+
+            <button type="submit">
+                Cadastrar
+            </button>
+
+        </form>
+
+        <p id="mensagem"></p>
+
+    </section>
+
+</main>
+
+<footer>
+    <p>Portal Oficial da Seleção Brasileira</p>
+</footer>
+
+<script src="js/script.js"></script>
+
+</body>
+</html>
