@@ -15,15 +15,6 @@ function destacar(elemento){
     elemento.style.fontWeight = "bold";
 }
 
-function normal(elemento){
-    elemento.style.color = "black";
-    elemento.style.fontWeight = "normal";
-}
-
-function mostrarCuriosidade(){
-    document.getElementById("curiosidade").innerHTML =
-    "O Brasil é o único país que participou de todas as Copas do Mundo.";
-}
 function classificado(elemento){
     elemento.style.color = "green";
     elemento.style.fontWeight = "bold";
@@ -39,6 +30,12 @@ function normal(elemento){
     elemento.style.fontWeight = "normal";
     elemento.style.textDecoration = "none";
 }
+
+function mostrarCuriosidade(){
+    document.getElementById("curiosidade").innerHTML =
+    "O Brasil é o único país que participou de todas as Copas do Mundo.";
+}
+
 function foco(campo){
     campo.style.backgroundColor = "#ffffcc";
 }
@@ -57,152 +54,128 @@ function mostrarData(){
     "Data de nascimento selecionada!";
 }
 
-function salvarDados(event){
+// ---------------- CADASTRO ----------------
 
-    event.preventDefault();
-
-    localStorage.setItem(
-        "nome",
-        document.getElementById("nome").value
-    );
-
-    localStorage.setItem(
-        "email",
-        document.getElementById("email").value
-    );
-
-    localStorage.setItem(
-        "nascimento",
-        document.getElementById("nascimento").value
-    );
-
-    localStorage.setItem(
-        "cidade",
-        document.getElementById("cidade").value
-    );
-
-    window.location.href = "resultado.html";
+function getInputs(){
+    return {
+        nome: document.getElementById("nome"),
+        email: document.getElementById("email"),
+        senha: document.getElementById("senha"),
+        jogador_favorito: document.getElementById("jogador_favorito"),
+        data_nascimento: document.getElementById("nascimento"),
+        cidade: document.getElementById("cidade")
+    };
 }
-function mostrarResultado(){
 
-    let nome = localStorage.getItem("nome");
-    let email = localStorage.getItem("email");
-    let nascimento = localStorage.getItem("nascimento");
-    let cidade = localStorage.getItem("cidade");
+function getValores({nome,email,senha,jogador_favorito,data_nascimento,cidade}){
+    return{
+        nome: nome.value.trim(),
+        email: email.value.trim(),
+        senha: senha.value.trim(),
+        jogador_favorito: jogador_favorito.value.trim(),
+        data_nascimento: data_nascimento.value,
+        cidade: cidade.value.trim()
+    };
+}
 
-    let hoje = new Date();
-    let dataNasc = new Date(nascimento);
+async function cadastrar(){
 
-    let idade = hoje.getFullYear() - dataNasc.getFullYear();
+    const inputs = getInputs();
+    const dados = getValores(inputs);
 
-    let mes = hoje.getMonth() - dataNasc.getMonth();
+    await fetch("/api/usuarios",{
+        method:"POST",
+        headers:{
+            "Content-Type":"application/json"
+        },
+        body:JSON.stringify(dados)
+    });
 
-    if(mes < 0 || (mes === 0 && hoje.getDate() < dataNasc.getDate())){
+    window.location.href="resultado.html";
+}
+
+// ---------------- RESULTADO ----------------
+
+function calcularIdade(dataNascimento){
+
+    const hoje = new Date();
+    const nascimento = new Date(dataNascimento);
+
+    let idade = hoje.getFullYear() - nascimento.getFullYear();
+
+    const mes = hoje.getMonth() - nascimento.getMonth();
+
+    if(mes < 0 || (mes === 0 && hoje.getDate() < nascimento.getDate())){
         idade--;
     }
 
-    let categoria = "";
-
-    if(idade <= 16){
-        categoria = "Torcedor Mirim";
-    }
-    else if(idade <= 30){
-        categoria = "Torcedor Novato";
-    }
-    else{
-        categoria = "Torcedor Experiente";
-    }
-
-    document.getElementById("resultado").innerHTML = `
-        <h2>Cadastro Realizado com Sucesso!</h2>
-
-        <p><strong>Nome:</strong> ${nome}</p>
-
-        <p><strong>Email:</strong> ${email}</p>
-
-        <p><strong>Cidade:</strong> ${cidade}</p>
-
-        <p><strong>Data de Nascimento:</strong> ${nascimento}</p>
-
-        <p><strong>Idade:</strong> ${idade} anos</p>
-
-        <p><strong>Categoria:</strong> ${categoria}</p>
-    `;
+    return idade;
 }
-function getInputs(){
- return {
- nome: document.getElementById('nome'),
- email: document.getElementById('email'),
- senha: document.getElementById('senha'),
- jogador_favorito: document.getElementById('jogador_favorito'),
- data_nascimento: document.getElementById('nascimento'),
- cidade: document.getElementById('cidade')
- };
- }
- 
- function getValores({nome, email, senha, jogador_favorito, data_nascimento, cidade}){
- return {
- nome: nome.value.trim(),
- email: email.value.trim(),
- senha: senha.value.trim(),
- jogador_favorito: jogador_favorito.value.trim(),
- data_nascimento: data_nascimento.value.trim(),
- cidade: cidade.value.trim()
- };
- }
- 
- async function cadastrar(){
- const inputs = getInputs();
- const dados = getValores(inputs);
- 
- 
- await fetch('/api/usuarios', {
- method: 'POST',
- headers: { 'Content-Type': 'application/json' },
- body: JSON.stringify(dados)
- });
- 
- window.location.href = './../pages/resultado.html';
- }
- 
- function calcularIdade(dataNascimento) {
- const anoHoje = new Date().getFullYear();
- const anoNascimento = new Date(dataNascimento).getFullYear();
- const idade = anoHoje - anoNascimento;
- 
- return idade;
- }
- 
- async function mostrarResultado(){
- const resultadoDiv = document.getElementById('resultado');
- const resposta = await fetch('/api/usuarios');
- const usuarios = await resposta.json();
- 
- if (usuarios.length === 0) {
- resultadoDiv.innerHTML = '<p>Nenhum usuário cadastrado ainda.</p>';
- return;
- }
- 
- let html = '<table><thead><tr><th>ID</th><th>Nome</th><th>Email</th><th>Senha</th><th>País</th><th>Data de Nascimento</th><th>Idade</th></tr></thead><tbody>';
- for (const usuario of usuarios) {
- const idade = calcularIdade(usuario.data_nascimento);
- html += <tr><td>${usuario.id}</td><td>${usuario.nome}</td><td>${usuario.email}</td><td>${usuario.senha}</td><td>${usuario.pais}</td><td>${usuario.data_nascimento}</td><td>${idade}</td></tr>;
- }
- html += '</tbody></table>';
- 
- resultadoDiv.innerHTML = html;
- }
- 
- document.addEventListener('DOMContentLoaded', function() {
- const btnEnviar = document.getElementById('btnEnviar');
- if (btnEnviar) {
- btnEnviar.addEventListener('click', function(event) {
- event.preventDefault();
- cadastrar();
- });
- }
- 
- if (document.getElementById('resultado')) {
- mostrarResultado();
- }
- });
+
+async function mostrarResultado(){
+
+    const resultado = document.getElementById("resultado");
+
+    const resposta = await fetch("/api/usuarios");
+    const usuarios = await resposta.json();
+
+    if(usuarios.length === 0){
+        resultado.innerHTML="<h2>Nenhum torcedor cadastrado.</h2>";
+        return;
+    }
+
+    let html = `
+    <h2>Torcedores Cadastrados</h2>
+
+    <table border="1" cellpadding="10">
+        <tr>
+            <th>ID</th>
+            <th>Nome</th>
+            <th>Email</th>
+            <th>Jogador Favorito</th>
+            <th>Cidade</th>
+            <th>Nascimento</th>
+            <th>Idade</th>
+        </tr>
+    `;
+
+    usuarios.forEach(usuario=>{
+
+        const idade = calcularIdade(usuario.data_nascimento);
+
+        html += `
+        <tr>
+            <td>${usuario.id}</td>
+            <td>${usuario.nome}</td>
+            <td>${usuario.email}</td>
+            <td>${usuario.jogador_favorito}</td>
+            <td>${usuario.cidade}</td>
+            <td>${usuario.data_nascimento}</td>
+            <td>${idade}</td>
+        </tr>
+        `;
+    });
+
+    html += "</table>";
+
+    resultado.innerHTML = html;
+}
+
+// ---------------- EVENTOS ----------------
+
+document.addEventListener("DOMContentLoaded",()=>{
+
+    const btn = document.getElementById("btnEnviar");
+
+    if(btn){
+        btn.addEventListener("click",(e)=>{
+            e.preventDefault();
+            cadastrar();
+        });
+    }
+
+    if(document.getElementById("resultado")){
+        mostrarResultado();
+    }
+
+});
